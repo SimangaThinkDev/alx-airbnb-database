@@ -85,6 +85,7 @@ Relationships:
 
 - A payment belongs to one booking.
 
-## Link to Diagram
+## Links to Diagram
 [Diagram](./ERD.drawio)
+
 [Picture](./ERD.png)
