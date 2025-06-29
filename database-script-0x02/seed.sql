@@ -5,6 +5,7 @@ VALUES
   (gen_random_uuid(), 'Sipho', 'Ndlovu', 'sipho.ndlovu@example.co.za', 'hashed_pw_2', '+27837654321', 'host'),
   (gen_random_uuid(), 'Zola', 'Khumalo', 'zola.khumalo.admin@example.co.za', 'hashed_pw_3', '+27839876543', 'admin');
 
+
 -- Insert Properties (hosted by Sipho)
 INSERT INTO Property (property_id, host_id, name, description, location, pricepernight)
 VALUES 
@@ -14,6 +15,7 @@ VALUES
    'A spacious apartment with city views in Pretoria.',
    'Pretoria, South Africa',
    1500.00);
+
 
 -- Insert Booking (Thandeka books Sipho's property)
 INSERT INTO Booking (booking_id, property_id, user_id, start_date, end_date, total_price, status)
@@ -26,6 +28,7 @@ VALUES
    7500.00,
    'confirmed');
 
+
 -- Insert Payment (Thandeka pays for booking)
 INSERT INTO Payment (payment_id, booking_id, amount, payment_method)
 VALUES 
@@ -33,6 +36,7 @@ VALUES
    (SELECT booking_id FROM Booking LIMIT 1),
    7500.00,
    'EFT');
+
 
 -- Insert Review (Thandeka leaves a review)
 INSERT INTO Review (review_id, property_id, user_id, rating, comment)
@@ -42,6 +46,7 @@ VALUES
    (SELECT user_id FROM "User" WHERE email = 'thandeka.dlamini@example.co.za'),
    4,
    'Lovely place, very convenient location!');
+
 
 -- Insert Message (Thandeka sends a message to Sipho)
 INSERT INTO Message (message_id, sender_id, recipient_id, message_body)
