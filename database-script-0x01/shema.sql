@@ -1,12 +1,12 @@
 CREATE TYPE role_enum AS ENUM ( 'guest', 'host', 'admin' ); 
 
 CREATE TABLE User (
-    user_id UUID PRIMARY KEY, -- What if the UUID will be generated in the queries themselves? or should we keep the gen_random_UUID() method in this line
+    user_id UUID PRIMARY KEY, 
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255) NOT NULL, -- I want better constraints on this
+    phone_number VARCHAR(255) NOT NULL,
     role role_enum NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -20,8 +20,9 @@ CREATE TABLE Property (
     location VARCHAR(255) NOT NULL,
     pricepernight DECIMAL NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TYPE status_enum AS ENUM ('pending', 'confirmed', 'canceled');
 
@@ -33,7 +34,9 @@ CREATE TABLE Booking (
     end_date DATE NOT NULL,
     total_price DECIMAL NOT NULL,
     status status_enum NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CHECK (end_date > start_date)
 );
 
 
@@ -44,12 +47,36 @@ CREATE TABLE Payment (
     booking_id UUID REFERENCES Booking(booking_id),
     amount DECIMAL NOT NULL,
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_method payment_method_enum
+    payment_method payment_method_enum NOT NULL
 );
 
 
 
 CREATE TABLE Review (
-    review_id PRIMARY KEY UUID,
+    review_id UUID PRIMARY KEY,
     property_id UUID REFERENCES Property(property_id),
+    user_id UUID REFERENCES "User"(user_id),
+    rating INTEGER  CHECK (rating >= 1 AND rating <= 5) NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 );
+
+
+CREATE TABLE Message (
+    message_id UUID PRIMARY KEY,
+    sender_id UUID REFERENCES "User"(user_id),
+    recipient_id UUID REFERENCES "User"(user_id),
+    message_body TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+);
+
+
+
+CREATE INDEX idx_email ON "User" (email);
+
+CREATE INDEX idx_property_id_property ON "Property" (property_id);
+CREATE INDEX idx_property_id_booking ON "Booking" (property_id);
+
+CREATE INDEX idx_booking_id_booking ON "Booking" (booking_id);
+CREATE INDEX idx_booking_id_payment ON "Payment" (booking_id);
+
