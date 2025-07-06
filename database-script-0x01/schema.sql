@@ -80,7 +80,5 @@ CREATE TABLE Message (
 
 -- Indexes
 CREATE INDEX idx_email ON User (email);
-CREATE INDEX idx_property_id_property ON Property (property_id); -- Redundant as it's a PK, but kept for consistency with original request
 CREATE INDEX idx_property_id_booking ON Booking (property_id);
-CREATE INDEX idx_booking_id_booking ON Booking (booking_id); -- Redundant as it's a PK, but kept for consistency with original request
 CREATE INDEX idx_booking_id_payment ON Payment (booking_id);
