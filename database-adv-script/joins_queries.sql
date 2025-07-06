@@ -13,9 +13,10 @@ WHERE u.role = 'guest';
 -- properties that have no reviews.
 
 SELECT p.name, p.description, p.location, r.rating, r.comment
-FROM Property
+FROM Property p
 LEFT OUTER JOIN Review r
-ON p.property_id = r.property_id;
+ON p.property_id = r.property_id
+ORDER BY p.name;
 
 -- Write a query using a FULL OUTER JOIN to retrieve
 -- all users and all bookings, even if the user has
