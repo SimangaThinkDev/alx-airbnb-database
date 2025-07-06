@@ -21,3 +21,4 @@ WHERE u.user_id IN (
     GROUP BY b.user_id
     HAVING COUNT(b.booking_id) > 3 -- Count bookings per user and filter
 );
+
