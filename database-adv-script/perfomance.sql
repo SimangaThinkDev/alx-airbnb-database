@@ -59,6 +59,15 @@ LEFT JOIN Payment AS Py
 -- CREATE INDEX idx_user_id_booking ON Booking (user_id);
 
 -- Refactored query for improved performance
+-- Optimization Step 1: Add an index to Booking.user_id if not already present
+-- (MySQL often implicitly creates an index for foreign keys, but verify or add explicitly)
+-- CREATE INDEX idx_user_id_booking ON Booking (user_id);
+
+-- Optimization Step 2: Add a composite index for the WHERE clause conditions
+-- This index will be highly beneficial for queries filtering by status and start_date.
+-- CREATE INDEX idx_booking_status_start_date ON Booking (status, start_date);
+
+-- Refactored Query (The query structure remains the same, but performance improves with new indexes)
 SELECT
   B.booking_id,
   B.start_date,
@@ -83,5 +92,7 @@ JOIN User AS U
 JOIN Property AS P
   ON B.property_id = P.property_id
 LEFT JOIN Payment AS Py
-  ON B.booking_id = Py.booking_id;
+  ON B.booking_id = Py.booking_id
+WHERE
+  B.status = 'confirmed' AND B.start_date >= '2023-01-01';
 
