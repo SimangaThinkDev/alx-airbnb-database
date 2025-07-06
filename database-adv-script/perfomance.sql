@@ -60,7 +60,6 @@ LEFT JOIN Payment AS Py
 
 -- Refactored query for improved performance
 -- Optimization Step 1: Add an index to Booking.user_id if not already present
--- (MySQL often implicitly creates an index for foreign keys, but verify or add explicitly)
 -- CREATE INDEX idx_user_id_booking ON Booking (user_id);
 
 -- Optimization Step 2: Add a composite index for the WHERE clause conditions
