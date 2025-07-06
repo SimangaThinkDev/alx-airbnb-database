@@ -1,12 +1,13 @@
 -- Write a query to find all properties where the average 
 -- rating is greater than 4.0 using a subquery.
 
-SELECT * 
-FROM Property
-WHERE property_id IN (
+SELECT p.name, p.description, p.location
+FROM Property p
+WHERE p.property_id IN (
     SELECT property_id
     FROM Review
-    WHERE rating > 4
+    GROUP BY property_id -- Group reviews by property
+    HAVING AVG(rating) > 4.0 -- Filter groups where the average rating is > 4.0
 );
 
 -- Write a correlated subquery to find users who have 
