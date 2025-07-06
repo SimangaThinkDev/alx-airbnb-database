@@ -12,7 +12,7 @@ CREATE INDEX idx_property_location ON Property (location);
 CREATE INDEX idx_user_role ON User (role);
 
 -- Check perfomance
-EXPLAIN
+EXPLAIN ANALYZE
 SELECT *
 FROM Booking
 WHERE user_id = 'some-user-id' AND property_id = 'some-prop-id';
